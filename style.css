@@ -1276,3 +1276,16 @@ body {
   outline: 3px solid #4A90E2;
   outline-offset: 2px;
 }
+
+
+/* Força todas as fontes a serem como WhatsApp */
+* {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+}
+
+/* Remove especificamente fontes cursivas */
+.cursive, 
+[style*="cursive"],
+[style*="Comic Sans"] {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+}
