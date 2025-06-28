@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎮 Jogão de Sílabas do Davi</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <!-- Tela Inicial -->
+        <div id="welcome-screen" class="screen active">
+            <div class="welcome-content">
+                <h1 class="game-title">🎮 Jogão de Sílabas do Davi</h1>
+                <p class="welcome-subtitle">Vamos aprender a ler juntando as sílabas!</p>
+                
+                <div class="level-selection">
+                    <h2>Escolha o Nível:</h2>
+                    <div class="level-buttons">
+                        <button class="btn btn--primary level-btn" data-level="1">
+                            <span class="level-emoji">⭐</span>
+                            <span class="level-name">Fácil</span>
+                            <span class="level-desc">Palavras Simples</span>
+                        </button>
+                        <button class="btn btn--primary level-btn" data-level="2">
+                            <span class="level-emoji">⭐⭐</span>
+                            <span class="level-name">Médio</span>
+                            <span class="level-desc">Três Sílabas</span>
+                        </button>
+                        <button class="btn btn--primary level-btn" data-level="3">
+                            <span class="level-emoji">⭐⭐⭐</span>
+                            <span class="level-name">Difícil</span>
+                            <span class="level-desc">Quatro Sílabas</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="settings-button">
+                    <button class="btn btn--secondary" id="settings-btn">⚙️ Configurações</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tela de Configurações -->
+        <div id="settings-screen" class="screen">
+            <div class="settings-content">
+                <h2>⚙️ Configurações</h2>
+                
+                <div class="settings-options">
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <input type="checkbox" id="sounds-toggle" checked>
+                            <span class="setting-text">🔊 Sons Habilitados</span>
+                        </label>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <input type="checkbox" id="auto-transition-toggle" checked>
+                            <span class="setting-text">➡️ Transição Automática</span>
+                        </label>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <label class="setting-text">⏱️ Tempo de Resposta:</label>
+                        <select id="response-time" class="form-control">
+                            <option value="10">10 segundos</option>
+                            <option value="15" selected>15 segundos</option>
+                            <option value="20">20 segundos</option>
+                            <option value="30">30 segundos</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="btn btn--primary" id="back-to-menu">⬅️ Voltar ao Menu</button>
+            </div>
+        </div>
+
+        <!-- Tela do Jogo -->
+        <div id="game-screen" class="screen">
+            <div class="game-header">
+                <div class="game-info">
+                    <div class="score-info">
+                        <span class="score-label">Pontos:</span>
+                        <span id="score">0</span>
+                    </div>
+                    <div class="level-info">
+                        <span class="level-label">Nível:</span>
+                        <span id="current-level">1</span>
+                    </div>
+                    <div class="streak-info">
+                        <span class="streak-label">Sequência:</span>
+                        <span id="streak">0</span>
+                    </div>
+                </div>
+                <button class="btn btn--secondary" id="menu-btn">🏠 Menu</button>
+            </div>
+
+            <div class="game-content">
+                <div class="word-display">
+                    <div class="word-emoji" id="word-emoji">🏠</div>
+                    <div class="word-hint" id="word-hint">Lugar onde moramos</div>
+                    <button class="play-sound-btn" id="play-sound">🔊 Ouvir</button>
+                </div>
+
+                <div class="word-construction">
+                    <div class="syllable-slots" id="syllable-slots">
+                        <!-- Slots serão criados dinamicamente -->
+                    </div>
+                </div>
+
+                <div class="syllable-bank" id="syllable-bank">
+                    <!-- Sílabas embaralhadas serão criadas dinamicamente -->
+                </div>
+
+                <div class="game-controls">
+                    <div class="attempts-display">
+                        <span>Tentativas: </span>
+                        <div class="attempts-hearts" id="attempts-hearts">
+                            <span class="heart">❤️</span>
+                            <span class="heart">❤️</span>
+                            <span class="heart">❤️</span>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn--secondary" id="clear-word">🗑️ Limpar</button>
+                        <button class="btn btn--primary" id="check-word">✅ Verificar</button>
+                    </div>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                    <span class="progress-text" id="progress-text">1 / 10</span>
+                </div>
+            </div>
+
+            <!-- Feedback Modal -->
+            <div id="feedback-modal" class="modal">
+                <div class="modal-content">
+                    <div class="feedback-icon" id="feedback-icon">✅</div>
+                    <div class="feedback-message" id="feedback-message">Parabéns! Você acertou!</div>
+                    <div class="feedback-points" id="feedback-points">+100 pontos</div>
+                </div>
+            </div>
+
+            <!-- Conquistas Modal -->
+            <div id="achievement-modal" class="modal">
+                <div class="modal-content achievement-content">
+                    <div class="achievement-icon" id="achievement-icon">🎯</div>
+                    <div class="achievement-title" id="achievement-title">Conquista Desbloqueada!</div>
+                    <div class="achievement-description" id="achievement-description">Parabéns pelo seu primeiro acerto!</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tela de Parabéns -->
+        <div id="completion-screen" class="screen">
+            <div class="completion-content">
+                <h1 class="completion-title">🎉 Parabéns, Davi!</h1>
+                <div class="completion-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Pontos Finais:</span>
+                        <span class="stat-value" id="final-score">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Palavras Corretas:</span>
+                        <span class="stat-value" id="correct-words">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Maior Sequência:</span>
+                        <span class="stat-value" id="best-streak">0</span>
+                    </div>
+                </div>
+                
+                <div class="completion-actions">
+                    <button class="btn btn--primary" id="play-again">🔄 Jogar Novamente</button>
+                    <button class="btn btn--secondary" id="back-to-menu-final">🏠 Menu Principal</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
